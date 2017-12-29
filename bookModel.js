@@ -7,7 +7,7 @@ var bookSchema = new Schema({
    isbn           : {type: Number,default: '',required: true},
    author         : [],
    numberOfPages  : {type: Number,default: ''},
-   publisher      : {type: String,default: ''},
+   publishers      : {type: String,default: ''},
    country        : {type: String,default: ''},
    released       : {type:Date}
   

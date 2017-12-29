@@ -63,11 +63,11 @@ app.post('/book/create', function (req, res) {
         isbn: req.body.isbn,
         country: req.body.country,
         numberOfPages: req.body.numberOfPages,
-        publisher: req.body.publisher
+        publishers: req.body.publishers,
     }); //end newBook
 
     //lets set the date of creation
-    var today = new Date();
+    var today = Date();
     newBook.released  = today;
 
     //lets set the tags into array
