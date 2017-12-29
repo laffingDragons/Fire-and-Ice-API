@@ -66,7 +66,8 @@ app.post('/book/create', function (req, res) {
     }); //end newBlog
 
     //lets set the date of creation
-    released = new Date()
+    var today = new Date();
+    newBook.released  = today;
 
     //lets set the tags into array
     var author = req.body.author.split(',') : '';
