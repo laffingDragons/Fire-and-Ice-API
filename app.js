@@ -16,3 +16,9 @@ mongoose.connection.once('open', function () {
     
     console.log("Database Connection open successfully... GOT app is Running...");
 });
+//include the model file
+
+var Blog = require('./bookModel.js');
+
+var blogModel = mongoose.model('Book');
+//ends include
