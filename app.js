@@ -33,7 +33,7 @@ app.get('/', function (req, res) {
 //start route to GEt allbooks
 app.get('/books', function (req, res) {
 
-    blogModel.find(function (err, result) {
+    bookModel.find(function (err, result) {
         if (err) {
             res.send(err)
         } else {
@@ -44,7 +44,7 @@ app.get('/books', function (req, res) {
 
 //to get single blog
 app.get('/books/:id', function (req, res) {
-    blogModel.findOne({
+    bookModel.findOne({
         '_id': req.params.id
     }, function (err, result) {
         if (err) {
@@ -58,26 +58,19 @@ app.get('/books/:id', function (req, res) {
 
 //to create a blog
 app.post('/book/create', function (req, res) {
-    var newBlog = new blogModel({
-        title: req.body.title,
-        subTitle: req.body.subTitle,
-        blogBody: req.body.blogBody
+    var newBlog = new bookModel({
+        name: req.body.name,
+        isbn: req.body.isbn,
+        publisher: req.body.publisher,
+        country: req.body.country
     }); //end newBlog
 
     //lets set the date of creation
-    var today = Date.now();
-    newBlog.created = today;
+    released = new Date()
 
     //lets set the tags into array
-    var allTags = (req.body.allTags != undefined && req.body.allTags != null) ? req.body.allTags.split(',') : '';
-    newBlog.tags = allTags;
-
-    //lets set the author information
-    var authorInfo = {
-        fullName: req.body.authorFullName,
-        email: req.body.authorEmail
-    };
-    newBlog.authorInfo = authorInfo;
+    var author = req.body.author.split(',') : '';
+    newBook.author = author;
 
     // now lets save the file
     newBlog.save(function (error) {
@@ -97,7 +90,7 @@ app.put('/books/:id/edit', function(req, res) {
 
     var update = req.body;
 
-    blogModel.findOneAndUpdate({'_id': req.params.id}, update, function (err, result) {
+    bookModel.findOneAndUpdate({'_id': req.params.id}, update, function (err, result) {
 
         if (err) {
             console.log("some Error");
@@ -111,7 +104,7 @@ app.put('/books/:id/edit', function(req, res) {
 //start the route to delete a blog
 app.post('/books/:id/delete',function(req, res){
     
-    blogModel.remove({'_id':req.params.id},function(err, result){
+    bookModel.remove({'_id':req.params.id},function(err, result){
         if(err){
            console.log("some Error");
            res.send(err);
