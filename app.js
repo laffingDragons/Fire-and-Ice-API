@@ -61,9 +61,10 @@ app.post('/book/create', function (req, res) {
     var newBook = new bookModel({
         name: req.body.name,
         isbn: req.body.isbn,
-        publisher: req.body.publisher,
-        country: req.body.country
-    }); //end newBlog
+        country: req.body.country,
+        numberOfPages: req.body.numberOfPages,
+        publisher: req.body.publisher
+    }); //end newBook
 
     //lets set the date of creation
     var today = new Date();
@@ -74,7 +75,7 @@ app.post('/book/create', function (req, res) {
     newBook.author = author;
 
     // now lets save the file
-    newBlog.save(function (error) {
+    newBook.save(function (error) {
         if (error) {
             console.log(error);
             res.send(error);
