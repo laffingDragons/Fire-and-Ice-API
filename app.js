@@ -58,7 +58,7 @@ app.get('/books/:id', function (req, res) {
 
 //to create a blog
 app.post('/book/create', function (req, res) {
-    var newBlog = new bookModel({
+    var newBook = new bookModel({
         name: req.body.name,
         isbn: req.body.isbn,
         publisher: req.body.publisher,
@@ -70,7 +70,7 @@ app.post('/book/create', function (req, res) {
     newBook.released  = today;
 
     //lets set the tags into array
-    var author = req.body.author.split(',') : '';
+    var author = (req.body.author != undefined && req.body.author != null) ? req.body.author.split(',') : '';
     newBook.author = author;
 
     // now lets save the file

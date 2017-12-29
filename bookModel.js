@@ -13,4 +13,4 @@ var bookSchema = new Schema({
   
 });
 
-mongoose.model('Book',blogSchema);
+mongoose.model('Book',bookSchema);
