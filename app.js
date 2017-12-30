@@ -272,7 +272,7 @@ app.post('/characs/:id/delete',function(req, res){
 
 var House = require('./houseModel.js');
 
-var houseModel = mongoose.model('house');
+var houseModel = mongoose.model('House');
 //start route to GEt allhouse
 app.get('/house', function (req, res) {
 
