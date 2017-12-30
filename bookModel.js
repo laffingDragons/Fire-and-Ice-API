@@ -12,6 +12,6 @@ var bookSchema = new Schema({
    released       : {type: Number,default: ''},
    created        : {type: Date}
   
-});
+},{timestamps:true});
 
 mongoose.model('Book',bookSchema);

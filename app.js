@@ -16,7 +16,9 @@ mongoose.connection.once('open', function () {
     
     console.log("Database Connection open successfully... GOT app is Running...");
 });
-//include the model file
+
+
+//include the model for books file
 
 var Book = require('./bookModel.js');
 
@@ -94,7 +96,7 @@ app.get('/book/local', function (req, res) {
 });
 
 
-//to create a blog
+//to create a book
 app.post('/book/create', function (req, res) {
     var newBook = new bookModel({
         name: req.body.name,
@@ -146,6 +148,115 @@ app.put('/books/:id/edit', function(req, res) {
 app.post('/books/:id/delete',function(req, res){
     
     bookModel.remove({'_id':req.params.id},function(err, result){
+        if(err){
+           console.log("some Error");
+           res.send(err);
+       }
+       else{
+           res.send(result);
+       }
+    });//end user model find
+});
+
+//include the model for characs file
+
+var Charac = require('./characModel.js');
+
+var characModel = mongoose.model('Charac');
+//ends include
+
+/*//here are the routes
+app.get('/', function (req, res) {
+    res.send('This is a GOT Application')
+});*/
+
+////// lets write code here for the routes//////
+
+//start route to GEt allcharacs
+app.get('/characs', function (req, res) {
+
+    characModel.find(function (err, result) {
+        if (err) {
+            res.send(err)
+        } else {
+            res.send(result)
+        }
+    }); // end user model find
+});
+
+//to get single blog
+app.get('/characs/:id', function (req, res) {
+    characModel.findOne({
+        '_id': req.params.id
+    }, function (err, result) {
+        if (err) {
+            console.log("some Error");
+            res.send(err);
+        } else {
+            res.send(result);
+        }
+    }); //end user model find
+}); // end route to get a particular charac
+
+
+//to create a charac
+app.post('/charac/create', function (req, res) {
+    var newCharac = new characModel({
+        name: req.body.name,
+        culture: req.body.culture,
+        father: req.body.father,
+        mother: req.body.mother,
+        born : req.body.born,
+        died : req.body.died
+    }); //end newBook
+
+    //lets set the date of creation
+    /*var today = Date();
+    newBook.created  = today;
+*/
+    //lets set the tags into array
+    var titles = (req.body.titles != undefined && req.body.titles != null) ? req.body.titles.split(',') : '';
+    newCharac.titles = titles;
+
+    var aliases = (req.body.aliases != undefined && req.body.aliases != null) ? req.body.aliases.split(',') : '';
+    newCharac.aliases = aliases;
+
+    var tvSeries = (req.body.tvSeries != undefined && req.body.tvSeries != null) ? req.body.tvSeries.split(',') : '';
+    newCharac.tvSeries = tvSeries;
+
+    // now lets save the file
+    newCharac.save(function (error) {
+        if (error) {
+            console.log(error);
+            res.send(error);
+        } else {
+            res.send(error);
+        }
+    }); //end new blog save
+
+}); // 
+
+//start route to edit a blog using _id
+
+app.put('/characs/:id/edit', function(req, res) {
+
+    var update = req.body;
+
+    characModel.findOneAndUpdate({'_id': req.params.id}, update, function (err, result) {
+
+        if (err) {
+            console.log("some Error");
+            res.send(err);
+        } else {
+            res.send(result);
+        }
+    }); //end user model find
+});
+
+//start the route to delete a blog
+app.post('/characs/:id/delete',function(req, res){
+    
+    characModel.remove({'_id':req.params.id},function(err, result){
         if(err){
            console.log("some Error");
            res.send(err);
