@@ -56,6 +56,44 @@ app.get('/books/:id', function (req, res) {
     }); //end user model find
 }); // end route to get a particular blog
 
+
+//route for books have less than 100 pages
+app.get('/book/less', function (req, res) {
+
+    bookModel.find().where('numberOfPages').lte(100).exec(function (err, result) {
+        if (err) {
+            res.send(err)
+        } else {
+            res.send(result)
+        }
+    }); // end user model find
+});
+
+//route for books have greater than 100 pages
+app.get('/book/big', function (req, res) {
+
+    bookModel.find().where('numberOfPages').gt(100).exec(function (err, result) {
+        if (err) {
+            res.send(err)
+        } else {
+            res.send(result)
+        }
+    }); // end user model find
+});
+
+//route for books in india
+app.get('/book/local', function (req, res) {
+
+    bookModel.find().where('country', 'India').exec(function (err, result) {
+        if (err) {
+            res.send(err)
+        } else {
+            res.send(result)
+        }
+    }); // end user model find
+});
+
+
 //to create a blog
 app.post('/book/create', function (req, res) {
     var newBook = new bookModel({
@@ -64,11 +102,12 @@ app.post('/book/create', function (req, res) {
         country: req.body.country,
         numberOfPages: req.body.numberOfPages,
         publishers: req.body.publishers,
+        released : req.body.released
     }); //end newBook
 
     //lets set the date of creation
     var today = Date();
-    newBook.released  = today;
+    newBook.created  = today;
 
     //lets set the tags into array
     var author = (req.body.author != undefined && req.body.author != null) ? req.body.author.split(',') : '';

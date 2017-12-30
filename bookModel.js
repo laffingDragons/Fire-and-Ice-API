@@ -9,7 +9,8 @@ var bookSchema = new Schema({
    numberOfPages  : {type: Number,default: ''},
    publishers      : {type: String,default: ''},
    country        : {type: String,default: ''},
-   released       : {type:Date}
+   released       : {type: Number,default: ''},
+   created        : {type: Date}
   
 });
 
