@@ -267,6 +267,103 @@ app.post('/characs/:id/delete',function(req, res){
     });//end user model find
 });
 
+
+//include the model for house file
+
+var House = require('./houseModel.js');
+
+var houseModel = mongoose.model('house');
+//start route to GEt allhouse
+app.get('/house', function (req, res) {
+
+    houseModel.find(function (err, result) {
+        if (err) {
+            res.send(err)
+        } else {
+            res.send(result)
+        }
+    }); // end user model find
+});
+
+//to get single house
+app.get('/house/:id', function (req, res) {
+    houseModel.findOne({
+        '_id': req.params.id
+    }, function (err, result) {
+        if (err) {
+            console.log("some Error");
+            res.send(err);
+        } else {
+            res.send(result);
+        }
+    }); //end user model find
+}); // end route to get a particular house
+
+
+//to create a house
+app.post('/house/create', function (req, res) {
+    var newHouse = new houseModel({
+        name: req.body.name,
+        region: req.body.region,
+        coatOfArms: req.body.coatOfArms,
+        currentLord: req.body.currentLord,
+        founder : req.body.founder
+    }); //end newBook
+
+    //lets set the date of creation
+    var today = Date();
+    newHouse.founder  = today;
+
+    //lets set the tags into array
+    var titles = (req.body.titles != undefined && req.body.titles != null) ? req.body.titles.split(',') : '';
+    newHouse.titles = titles;
+
+    var swornMembers = (req.body.swornMembers != undefined && req.body.swornMembers != null) ? req.body.swornMembers.split(',') : '';
+    newHouse.swornMembers = swornMembers;
+
+    // now lets save the file
+    newHouse.save(function (error) {
+        if (error) {
+            console.log(error);
+            res.send(error);
+        } else {
+            res.send(error);
+        }
+    }); //end new blog save
+
+}); // 
+
+//start route to edit a blog using _id
+
+app.put('/house/:id/edit', function(req, res) {
+
+    var update = req.body;
+
+    houseModel.findOneAndUpdate({'_id': req.params.id}, update, function (err, result) {
+
+        if (err) {
+            console.log("some Error");
+            res.send(err);
+        } else {
+            res.send(result);
+        }
+    }); //end user model find
+});
+
+//start the route to delete a blog
+app.post('/house/:id/delete',function(req, res){
+    
+    houseModel.remove({'_id':req.params.id},function(err, result){
+        if(err){
+           console.log("some Error");
+           res.send(err);
+       }
+       else{
+           res.send(result);
+       }
+    });//end user model find
+});
+
 //
 app.listen(3000, function(){
     console.log('Listening on Port 3000');
